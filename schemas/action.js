@@ -12,7 +12,7 @@ const ActionSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ['energía', 'transporte', 'reciclaje', 'alimentación', 'agua', 'otros'], // opcional
+    enum: ['energía', 'transporte', 'reciclaje', 'alimentación', 'agua', 'otros'],
     required: true
   }
 }, { timestamps: true });

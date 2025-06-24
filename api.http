@@ -1,3 +1,9 @@
+### GET actions
+GET http://localhost:3000/actions
+
+### GET action by ID
+GET http://localhost:3000/actions/685a1d1eeefad9aca75e23a5
+
 ### POST action
 POST http://localhost:3000/actions
 Content-Type: application/json
@@ -9,19 +15,13 @@ Content-Type: application/json
   "category": "energía"
 }
 
-### GET actions
-GET http://localhost:3000/actions
-
-### GET action by ID
-GET http://localhost:3000/actions/685ae9cafb063be3c59aa660
-
 ### UPDATE action
-PUT http://localhost:3000/actions/685ae9cafb063be3c59aa660
+PUT http://localhost:3000/actions/685af933dc81f66cda1613a9
 Content-Type: application/json
 
 {
-  "description": "aasasd"
+  "description": "new"
 }
 
 ### DELETE action
-DELETE http://localhost:3000/actions/685ae9cafb063be3c59aa660
+DELETE http://localhost:3000/actions/685afa6aff6d24eaa062544c
