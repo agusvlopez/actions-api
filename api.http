@@ -1,0 +1,27 @@
+### POST action
+POST http://localhost:3000/actions
+Content-Type: application/json
+
+{
+  "title": "Usar lamparas LED bajo consumo",
+  "description": "",
+  "carbon": 2,
+  "category": "energía"
+}
+
+### GET actions
+GET http://localhost:3000/actions
+
+### GET action by ID
+GET http://localhost:3000/actions/685ae9cafb063be3c59aa660
+
+### UPDATE action
+PUT http://localhost:3000/actions/685ae9cafb063be3c59aa660
+Content-Type: application/json
+
+{
+  "description": "aasasd"
+}
+
+### DELETE action
+DELETE http://localhost:3000/actions/685ae9cafb063be3c59aa660
