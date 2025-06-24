@@ -1,12 +1,16 @@
 import { Router } from "express";
 import ActionController from "../controllers/actions.js";
 
-const ActionsRouter = Router()
+export const createActionsRouter = ({ actionModel }) => {
+  const ActionsRouter = Router()
 
-ActionsRouter.get('/', ActionController.getAll)
-ActionsRouter.get('/:id', ActionController.getById)
-ActionsRouter.post('/', ActionController.create)
-ActionsRouter.put('/:id', ActionController.update)
-ActionsRouter.delete('/:id', ActionController.delete)
+  const actionController = new ActionController({ actionModel })
 
-export default ActionsRouter
+  ActionsRouter.get('/', actionController.getAll)
+  ActionsRouter.get('/:id', actionController.getById)
+  ActionsRouter.post('/', actionController.create)
+  ActionsRouter.put('/:id', actionController.update)
+  ActionsRouter.delete('/:id', actionController.delete)
+
+  return ActionsRouter
+}

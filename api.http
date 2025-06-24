@@ -16,12 +16,12 @@ Content-Type: application/json
 }
 
 ### UPDATE action
-PUT http://localhost:3000/actions/685af933dc81f66cda1613a9
+PUT http://localhost:3000/actions/685b2435fd8ed0f5b0763bce
 Content-Type: application/json
 
 {
-  "description": "new"
+  "description": "asas"
 }
 
 ### DELETE action
-DELETE http://localhost:3000/actions/685afa6aff6d24eaa062544c
+DELETE http://localhost:3000/actions/685b2435fd8ed0f5b0763bce

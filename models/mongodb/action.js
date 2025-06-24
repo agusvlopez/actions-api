@@ -17,6 +17,6 @@ const ActionSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Action = mongoose.model('Action', ActionSchema);
+const ActionModel = mongoose.model('Action', ActionSchema);
 
-export default Action;
+export default ActionModel;
