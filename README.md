@@ -54,6 +54,7 @@ Una API REST simple para gestionar acciones de sostenibilidad y su impacto de ca
 
 ## 📡 Endpoints de la API
 
+Podes encontrar y probar todos los endpoints en el archivo [`api.http`](./api.http) utilizando la extensión 'REST Client' para VS Code
 La URL base para todos los endpoints es `/actions`.
 
 ### Obtener Todas las Acciones
