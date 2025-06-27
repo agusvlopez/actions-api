@@ -1,24 +1,22 @@
 import express from 'express'
 import cors from 'cors'
-import { connectDB } from './db.js'
+import { connectDB } from './db.ts'
 import 'dotenv/config'
-import { createActionsRouter } from './routes/actions.js'
-import { ActionModelProps } from './types.js'
+import { createActionsRouter } from './routes/actions.ts'
+import { ActionModelProps, CreateAppParams } from './types.ts'
 
-export const createApp = async ( { actionModel } : ActionModelProps ) => {
+export const createApp = async ( { actionModel, dbUri } : CreateAppParams ) => {
   const app = express()
   app.use(express.json())
   app.disable('x-powered-by')
   app.use(cors()) //todo: change the parameter
 
-  const PORT = process.env.PORT || 3000
-
   //database
-  await connectDB()
+   if (dbUri) {
+    await connectDB({ uri: dbUri })
+  }
 
   app.use('/actions', createActionsRouter({ actionModel }))
 
-  app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`)
-  })
+  return app
 }

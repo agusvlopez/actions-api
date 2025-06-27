@@ -16,3 +16,9 @@ export interface Action extends Document {
 export interface ActionModelProps {
   actionModel: Model<Action>;
 }
+
+export type DbUri = string 
+
+export interface CreateAppParams extends ActionModelProps {
+  dbUri: DbUri
+}
