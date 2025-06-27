@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { Action as ActionType } from '../../types.js';
 
-const ActionSchema = new mongoose.Schema({
+const ActionSchema = new mongoose.Schema<ActionType>({
   title: {
     type: String,
     required: true
@@ -15,8 +16,8 @@ const ActionSchema = new mongoose.Schema({
     enum: ['energía', 'transporte', 'reciclaje', 'alimentación', 'agua', 'otros'],
     required: true
   }
-}, { timestamps: true });
+}, { timestamps: true })
 
-const ActionModel = mongoose.model('Action', ActionSchema);
+const ActionModel = mongoose.model<ActionType>('Action', ActionSchema)
 
-export default ActionModel;
+export default ActionModel

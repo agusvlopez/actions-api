@@ -1,0 +1,101 @@
+import { Model } from "mongoose";
+import { ActionModelProps, Action as ActionType} from "../types.js";
+import { Request, RequestHandler, Response } from "express";
+
+class ActionController {
+  actionModel: Model<ActionType>
+
+  constructor({ actionModel }: ActionModelProps){
+    this.actionModel = actionModel
+  }
+
+  getAll: RequestHandler  = async (req: Request, res: Response) => {
+    try {
+      const actions = await this.actionModel.find()
+      res.json(actions)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error fetching actions'
+      res.status(500).json({ error: errorMessage })
+    }
+  }
+
+  getById: RequestHandler = async (req, res) => {
+    const { id } = req.params
+    try {
+      const action = await this.actionModel.findById(id)
+      if (!action) {
+        res.status(404).json({ error: 'Action not found' })
+      } else {
+        res.json(action)
+      }
+    } catch (err) {
+      // Handle CastError for invalid ID format
+      if (err instanceof Error && err.name === 'CastError') {
+        res.status(400).json({ error: 'Invalid ID format' })
+      } else {
+        // Handle other unexpected errors
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error fetching action by ID'
+        res.status(500).json({ error: errorMessage })
+      }
+    }
+  }
+
+
+  create: RequestHandler = async (req: Request, res: Response) => {
+    try {
+      const newAction = await this.actionModel.create(req.body)
+      res.status(201).json(newAction)
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error creating action'
+
+      // Handle ValidationError for invalid request body
+      if (err instanceof Error && err.name === 'ValidationError') {
+        res.status(400).json({ error: errorMessage })
+      } else {
+        // Handle other unexpected errors
+        res.status(500).json({ error: errorMessage })
+      }
+    }
+  }
+
+  update: RequestHandler = async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+      const action = await this.actionModel.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+      if(!action) res.status(404).json({ error: 'Action not found' }) 
+      res.status(200).json(action)
+    } catch (err) {
+      // Handle CastError for invalid ID format
+      if (err instanceof Error && err.name === 'CastError') {
+         res.status(400).json({ error: 'Invalid ID format' })
+      } else {
+        // Handle other unexpected errors
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error updating action'
+        res.status(500).json({ error: errorMessage })
+      }
+    }
+  }
+
+  delete: RequestHandler = async (req: Request, res: Response) => {
+    const { id } = req.params
+    try {
+      const action = await this.actionModel.findByIdAndDelete(id)
+      if(!action) {
+        res.status(404).json({ error: 'Action not found' })
+      } else {
+        res.json({ message: `Action '${action.title}' deleted successfully` })
+      }
+    } catch (err) {
+      // Handle CastError for invalid ID format
+      if (err instanceof Error && err.name === 'CastError') {
+        res.status(400).json({ error: 'Invalid ID format' })
+      } else {
+        // Handle other unexpected errors
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error deleting action';
+        res.status(500).json({ error: errorMessage })
+      }
+    }
+  }
+}
+
+export default ActionController

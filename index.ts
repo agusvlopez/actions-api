@@ -3,8 +3,9 @@ import cors from 'cors'
 import { connectDB } from './db.js'
 import 'dotenv/config'
 import { createActionsRouter } from './routes/actions.js'
+import { ActionModelProps } from './types.js'
 
-export const createApp = async ({ actionModel }) => {
+export const createApp = async ( { actionModel } : ActionModelProps ) => {
   const app = express()
   app.use(express.json())
   app.disable('x-powered-by')
