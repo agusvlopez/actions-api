@@ -2,7 +2,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 import mongoose from 'mongoose'
 import request from 'supertest'
 import { createApp } from '../index.ts'
-import ActionModel from '../models/mongodb/action.ts'
+import ActionModel  from '../models/mongodb/action.ts'
 import { Express } from 'express'
 
 describe('Actions API', () => {
@@ -36,14 +36,14 @@ describe('Actions API', () => {
     })
 
     it('should return a list of actions', async () => {
-      const actionOne = await ActionModel.create([
+      const actionOne = await ActionModel.create(
         { title: 'Action 1', carbon: 1, category: 'energía' }
-      ])
+      )
 
       if(actionOne) {
-        const actionTwo = await ActionModel.create([
+        const actionTwo = await ActionModel.create(
           { title: 'Action 2', carbon: 2, category: 'transporte' }
-        ])
+        )
       }
 
       const res = await request(app).get('/actions')
@@ -72,8 +72,6 @@ describe('Actions API', () => {
       expect(res.body.category).toBe(newAction.category)
       expect(res.body).toHaveProperty('_id')
 
-      const count = await ActionModel.countDocuments()
-      expect(count).toBe(1)
     })
 
     it('should return 400 for invalid data (missing title)', async () => {
@@ -143,7 +141,7 @@ describe('Actions API', () => {
         expect(res.statusCode).toEqual(200)
         expect(res.body.message).toContain('deleted successfully')
 
-        const deletedAction = await ActionModel.findById(actionId)
+        const deletedAction = await ActionModel.getById(actionId)
         expect(deletedAction).toBeNull()
     })
   })

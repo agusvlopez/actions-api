@@ -3,15 +3,15 @@ import { ActionModelProps, Action as ActionType} from "../types.ts";
 import { Request, RequestHandler, Response } from "express";
 
 class ActionController {
-  actionModel: Model<ActionType>
+  actionModel: ActionModelProps["actionModel"];
 
   constructor({ actionModel }: ActionModelProps){
-    this.actionModel = actionModel
+    this.actionModel = actionModel;
   }
 
   getAll: RequestHandler  = async (req: Request, res: Response) => {
     try {
-      const actions = await this.actionModel.find()
+      const actions = await this.actionModel.getAll()
       res.json(actions)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error fetching actions'
@@ -22,7 +22,7 @@ class ActionController {
   getById: RequestHandler = async (req, res) => {
     const { id } = req.params
     try {
-      const action = await this.actionModel.findById(id)
+      const action = await this.actionModel.getById(id)
       if (!action) {
         res.status(404).json({ error: 'Action not found' })
       } else {
@@ -61,7 +61,7 @@ class ActionController {
   update: RequestHandler = async (req: Request, res: Response) => {
     const { id } = req.params
     try {
-      const action = await this.actionModel.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+      const action = await this.actionModel.update(id, req.body)
       if(!action) {
         res.status(404).json({ error: 'Action not found' }) 
       } else {
@@ -84,7 +84,7 @@ class ActionController {
   delete: RequestHandler = async (req: Request, res: Response) => {
     const { id } = req.params
     try {
-      const action = await this.actionModel.findByIdAndDelete(id)
+      const action = await this.actionModel.delete(id)
       if(!action) {
         res.status(404).json({ error: 'Action not found' })
       } else {

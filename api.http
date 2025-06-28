@@ -25,4 +25,4 @@ Content-Type: application/json
 }
 
 ### DELETE action
-DELETE http://localhost:3000/actions/685dfdb914bea20e60e32ccb
+DELETE http://localhost:3000/actions/685f350a4ee599634c5082097
