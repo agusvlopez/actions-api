@@ -1,23 +1,25 @@
 ### GET actions
 GET http://localhost:3000/actions
 
+### GET actions BY category
+GET http://localhost:3000/actions?category=energIA
+
 ### GET action by ID
-GET http://localhost:3000/actions/685c8c9f98d3b09861265c9c
+GET http://localhost:3000/actions/19b48c77-5564-11f0-b7f9-7085c2cd2972
 
 ### POST action
 POST http://localhost:3000/actions
 Content-Type: application/json
 
 {
-  "title": "Usar lamparas LED bajo consumo",
+  "title": "Juntar agua de lluvia para regar",
   "description": "",
   "carbon": 2,
-  "category": "energía",
-  "agus": 123
+  "categoryId": "8b6b5625-555e-11f0-b7f9-7085c2cd2972"
 }
 
 ### UPDATE action
-PUT http://localhost:3000/actions/685d78b1b415422b12e560b7
+PUT http://localhost:3000/actions/31a641e5-5564-11f0-b7f9-7085c2cd2972
 Content-Type: application/json
 
 {
@@ -25,4 +27,4 @@ Content-Type: application/json
 }
 
 ### DELETE action
-DELETE http://localhost:3000/actions/685f350a4ee599634c5082097
+DELETE http://localhost:3000/actions/31a641e5-5564-11f0-b7f9-7085c2cd2972

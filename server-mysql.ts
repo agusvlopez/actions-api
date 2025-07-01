@@ -1,6 +1,6 @@
 import { MONGO_URI, PORT } from "./config.ts"
 import { createApp } from "./index.ts"
-import ActionModel from "./models/mongodb/action.ts"
+import ActionModel from "./models/mysql/action.ts"
 
 const app = await createApp({ actionModel: ActionModel })
 

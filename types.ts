@@ -12,7 +12,7 @@ export interface Action {
 
 export interface ActionModelProps {
   actionModel: {
-    getAll(): Promise<Action[]>
+    getAll(category?: string): Promise<Action[]>
     getById(id: string): Promise<Action | null>
     create(data: any): Promise<Action>
     update(id: string, data: any): Promise<Action | null>

@@ -10,9 +10,20 @@ class ActionController {
   }
 
   getAll: RequestHandler  = async (req: Request, res: Response) => {
+          // Extract category from query parameters
+    const { category } = req.query as { category?: string }
+    // Log the category for debugging purposes
+  
     try {
-      const actions = await this.actionModel.getAll()
-      res.json(actions)
+      // If category is provided, filter actions by category
+      if (category) {
+          console.log("Controller category:", category);
+        const actions = await this.actionModel.getAll(category)
+        res.json(actions)
+      } else {
+        const actions = await this.actionModel.getAll()
+        res.json(actions)
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error fetching actions'
       res.status(500).json({ error: errorMessage })
@@ -39,7 +50,6 @@ class ActionController {
       }
     }
   }
-
 
   create: RequestHandler = async (req: Request, res: Response) => {
     try {
