@@ -1,16 +1,15 @@
-import { Model } from "mongoose";
-import { ActionModelProps, Action as ActionType} from "../types.ts";
-import { Request, RequestHandler, Response } from "express";
+import { ActionModelProps, Action as ActionType} from "../types.ts"
+import { Request, RequestHandler, Response } from "express"
 
 class ActionController {
-  actionModel: ActionModelProps["actionModel"];
+  actionModel: ActionModelProps["actionModel"]
 
   constructor({ actionModel }: ActionModelProps){
     this.actionModel = actionModel;
   }
 
   getAll: RequestHandler  = async (req: Request, res: Response) => {
-          // Extract category from query parameters
+    // Extract category from query parameters
     const { category } = req.query as { category?: string }
     // Log the category for debugging purposes
   
@@ -94,11 +93,11 @@ class ActionController {
   delete: RequestHandler = async (req: Request, res: Response) => {
     const { id } = req.params
     try {
-      const action = await this.actionModel.delete(id)
-      if(!action) {
+      const deletedAction = await this.actionModel.delete(id)
+      if(!deletedAction) {
         res.status(404).json({ error: 'Action not found' })
       } else {
-        res.json({ message: `Action '${action.title}' deleted successfully` })
+        res.json({ message: `Action '${deletedAction.title}' deleted successfully` })
       }
     } catch (err) {
       // Handle CastError for invalid ID format

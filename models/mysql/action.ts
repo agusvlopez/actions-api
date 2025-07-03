@@ -94,14 +94,12 @@ class ActionModel {
       [uuid]
     )
     
-    console.log(actions);
-    
     if (actions.length === 0) return []
 
     return actions[0]
   }
 
-  static async update(id: string, input: object) {
+  static async update(id: string, input: ActionType) {
     try {
       const [existingAction] = await connection.query<any[]>(
         `SELECT 
@@ -166,7 +164,7 @@ class ActionModel {
 
       const action = existingAction[0]
 
-      const [result]: any = await connection.query(
+      const [result] = await connection.query<mysql.ResultSetHeader>(
         `DELETE FROM actions 
         WHERE 
           id = UUID_TO_BIN(?);`,

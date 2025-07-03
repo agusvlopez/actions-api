@@ -2,7 +2,7 @@
 GET http://localhost:3000/actions
 
 ### GET actions BY category
-GET http://localhost:3000/actions?category=energIA
+GET http://localhost:3000/actions?category=energia
 
 ### GET action by ID
 GET http://localhost:3000/actions/19b48c77-5564-11f0-b7f9-7085c2cd2972
@@ -19,7 +19,7 @@ Content-Type: application/json
 }
 
 ### UPDATE action
-PUT http://localhost:3000/actions/31a641e5-5564-11f0-b7f9-7085c2cd2972
+PUT http://localhost:3000/actions/4b0e5e3e-5565-11f0-b7f9-7085c2cd2972
 Content-Type: application/json
 
 {
