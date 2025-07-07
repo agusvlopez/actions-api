@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise'
-import { Category as CategoryType } from '../../types.js'
+import { Category as CategoryType } from '../../types/common.ts'
 
 const config = {
   host: 'localhost',

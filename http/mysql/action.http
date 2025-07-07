@@ -5,7 +5,7 @@ GET http://localhost:3000/actions
 GET http://localhost:3000/actions?category=energia
 
 ### GET action by ID
-GET http://localhost:3000/actions/19b48c77-5564-11f0-b7f9-7085c2cd2972
+GET http://localhost:3000/actions/0bf83419-57b1-11f0-bb44-00155d842e62
 
 ### POST action
 POST http://localhost:3000/actions
@@ -27,4 +27,4 @@ Content-Type: application/json
 }
 
 ### DELETE action
-DELETE http://localhost:3000/actions/31a641e5-5564-11f0-b7f9-7085c2cd2972
+DELETE http://localhost:3000/actions/d41c0a6e-5839-11f0-820f-00155d076f63

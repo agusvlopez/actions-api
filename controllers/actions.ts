@@ -1,5 +1,5 @@
-import { ActionModelProps, Action as ActionType} from "../types.ts"
-import { Request, RequestHandler, Response } from "express"
+import { ActionModelProps, Action as ActionType} from "../types/common.ts"
+import { NextFunction, Request, RequestHandler, Response } from "express"
 
 class ActionController {
   actionModel: ActionModelProps["actionModel"]
@@ -8,28 +8,17 @@ class ActionController {
     this.actionModel = actionModel;
   }
 
-  getAll: RequestHandler  = async (req: Request, res: Response) => {
-    // Extract category from query parameters
+  getAll: RequestHandler  = async (req: Request, res: Response, next: NextFunction) => {
     const { category } = req.query as { category?: string }
-    // Log the category for debugging purposes
-  
     try {
-      // If category is provided, filter actions by category
-      if (category) {
-          console.log("Controller category:", category);
-        const actions = await this.actionModel.getAll(category)
-        res.json(actions)
-      } else {
-        const actions = await this.actionModel.getAll()
-        res.json(actions)
-      }
+      const actions = await this.actionModel.getAll(category)
+      res.json(actions)
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error fetching actions'
-      res.status(500).json({ error: errorMessage })
+      next(err)
     }
   }
 
-  getById: RequestHandler = async (req, res) => {
+  getById: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
     try {
       const action = await this.actionModel.getById(id)
@@ -39,35 +28,20 @@ class ActionController {
         res.json(action)
       }
     } catch (err) {
-      // Handle CastError for invalid ID format
-      if (err instanceof Error && err.name === 'CastError') {
-        res.status(400).json({ error: 'Invalid ID format' })
-      } else {
-        // Handle other unexpected errors
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error fetching action by ID'
-        res.status(500).json({ error: errorMessage })
-      }
+      next(err)
     }
   }
 
-  create: RequestHandler = async (req: Request, res: Response) => {
+  create: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const newAction = await this.actionModel.create(req.body)
       res.status(201).json(newAction)
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error creating action'
-
-      // Handle ValidationError for invalid request body
-      if (err instanceof Error && err.name === 'ValidationError') {
-        res.status(400).json({ error: errorMessage })
-      } else {
-        // Handle other unexpected errors
-        res.status(500).json({ error: errorMessage })
-      }
+    } catch (err) {     
+      next(err)
     }
   }
 
-  update: RequestHandler = async (req: Request, res: Response) => {
+  update: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
     try {
       const action = await this.actionModel.update(id, req.body)
@@ -77,20 +51,11 @@ class ActionController {
         res.status(200).json(action)
       }
     } catch (err) {
-      // Handle CastError for invalid ID format
-      if (err instanceof Error && err.name === 'CastError') {
-        res.status(400).json({ error: 'Invalid ID format' })
-        return 
-      } else {
-        // Handle other unexpected errors
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error updating action'
-        res.status(500).json({ error: errorMessage })
-        return
-      }
+      next(err)
     }
   }
 
-  delete: RequestHandler = async (req: Request, res: Response) => {
+  delete: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
     try {
       const deletedAction = await this.actionModel.delete(id)
@@ -100,14 +65,7 @@ class ActionController {
         res.json({ message: `Action '${deletedAction.title}' deleted successfully` })
       }
     } catch (err) {
-      // Handle CastError for invalid ID format
-      if (err instanceof Error && err.name === 'CastError') {
-        res.status(400).json({ error: 'Invalid ID format' })
-      } else {
-        // Handle other unexpected errors
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error deleting action';
-        res.status(500).json({ error: errorMessage })
-      }
+      next(err)
     }
   }
 }

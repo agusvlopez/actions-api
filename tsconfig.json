@@ -15,7 +15,7 @@
     "allowImportingTsExtensions": true,
     "noEmit": true                    
   },
-  "include": ["*.ts", "databases/mongodb.ts"],                          
+  "include": ["*.ts", "databases/mongodb.ts", "types/common.ts"],                          
   "exclude": ["node_modules", "dist"]
 }
 

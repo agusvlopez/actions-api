@@ -1,6 +1,6 @@
 import { Router } from "express"
 import ActionController from "../controllers/actions.js"
-import { ActionModelProps } from "../types.js"
+import { ActionModelProps } from "../types/common.ts"
 
 export const createActionsRouter = (actionModel : ActionModelProps) => {
   const actionsRouter = Router()

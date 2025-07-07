@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise'
-import { Action as ActionType } from '../../types.js'
+import { Action as ActionType } from '../../types/common.ts'
 
 const config = {
   host: 'localhost',
@@ -39,6 +39,7 @@ class ActionModel {
         title, 
         description, 
         carbon, 
+        BIN_TO_UUID(category_id) AS category_id, 
         BIN_TO_UUID(id) as id 
       FROM actions;`
     )
@@ -78,7 +79,6 @@ class ActionModel {
       )
       
     } catch (error) {
-      console.error(error)
       throw new Error('Action creation failed')
     }
 
