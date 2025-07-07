@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { CategoryModelProps } from "../types/common.ts"
-import CategoryController from "../controllers/categories.ts"
+import { CategoryModelProps } from "@/types/common.ts"
+import CategoryController from "@/controllers/categories.ts"
 
 export const createCategoriesRouter = (categoryModel : CategoryModelProps) => {
   const categoriesRouter = Router()

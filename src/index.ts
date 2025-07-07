@@ -1,10 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
-import { createActionsRouter } from './routes/actions.ts'
-import { createCategoriesRouter } from './routes/categories.ts'
-import { ActionModelProps, CategoryModelProps } from './types/common.ts'
-import { errorHandler } from './middlewares/errorHandler.ts'
+import { createActionsRouter } from '@/routes/actions.ts'
+import { createCategoriesRouter } from '@/routes/categories.ts'
+import { ActionModelProps, CategoryModelProps } from '@/types/common.ts'
+import { errorHandler } from '@/middlewares/errorHandler.ts'
 
 export const createApp = async (
   actionModel: ActionModelProps["actionModel"],

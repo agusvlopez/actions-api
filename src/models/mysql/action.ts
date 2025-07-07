@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mysql from 'mysql2/promise'
-import { SqlAction as ActionType } from '../../types/sql.ts'
+import { SqlAction as ActionType } from '@/types/sql.ts'
 
 export const mySqlConfig = {
   host: 'localhost',

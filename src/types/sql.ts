@@ -1,4 +1,4 @@
-import { Action } from "./common.ts";
+import { Action } from "@/types/common.ts"
 
 export interface SqlAction extends Action {
   categoryId: string

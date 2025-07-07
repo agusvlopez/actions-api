@@ -1,4 +1,4 @@
-import { CategoryModelProps} from "../types/common.ts"
+import { CategoryModelProps} from "@/types/common.ts"
 import { NextFunction, Request, RequestHandler, Response } from "express"
 
 class CategoryController {

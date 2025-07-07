@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import { MongoAction as ActionType } from '../../types/mongo.ts'
-import ActionSchema from '../../schemas/mongodb/action.ts'
+import { MongoAction as ActionType } from '@/types/mongo.ts'
+import ActionSchema from '@/schemas/mongodb/action.ts'
 
 const MongooseActionModel = mongoose.model<ActionType>('Action', ActionSchema)
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mysql from 'mysql2/promise'
-import { Category as CategoryType } from '../../types/common.ts'
+import { Category as CategoryType } from '@/types/common.ts'
 
 const config = {
   host: 'localhost',

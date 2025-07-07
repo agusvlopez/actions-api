@@ -1,8 +1,8 @@
-import { PORT } from "./config.ts"
-import { createApp } from "./index.ts"
-import ActionModel from "./models/mongodb/action.ts"
+import { PORT } from "@/config.ts"
+import { createApp } from "@/index.ts"
+import ActionModel from "@/models/mongodb/action.ts"
 
-import './config/MongoDbClient.ts'
+import '@/config/MongoDbClient.ts'
 
 const app = await createApp(ActionModel)
 

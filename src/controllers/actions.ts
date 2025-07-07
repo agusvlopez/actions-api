@@ -1,4 +1,4 @@
-import { ActionModelProps} from "../types/common.ts"
+import { ActionModelProps} from "@/types/common.ts"
 import { NextFunction, Request, RequestHandler, Response } from "express"
 
 class ActionController {

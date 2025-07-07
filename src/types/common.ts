@@ -1,5 +1,5 @@
 import { QueryResult } from "mysql2"
-import { SqlActionRow } from "./sql.ts"
+import { SqlActionRow } from "@/types/sql.ts"
 
 /**
  * Represents an action a user can take to reduce their carbon footprint.
