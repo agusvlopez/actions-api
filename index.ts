@@ -6,13 +6,7 @@ import { createCategoriesRouter } from './routes/categories.ts'
 import { ActionModelProps, CategoryModelProps } from './types/common.ts'
 import { errorHandler } from './middlewares/errorHandler.ts'
 
-// interface Models {
-//   actionModel: ActionModelProps["actionModel"];
-//   categoryModel?: CategoryModelProps["categoryModel"];
-// }
-
 export const createApp = async (
-  //TODO: CHECK if there is a better way to define this in typescript 🤞
   actionModel: ActionModelProps["actionModel"],
   categoryModel?: CategoryModelProps["categoryModel"]
 ) => {

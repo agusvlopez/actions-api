@@ -6,8 +6,7 @@ import { QueryResult } from "mysql2"
 export interface Action {
   title: string
   description?: string
-  carbon: number     
-  categoryId: string
+  carbon: number
 }
 
 /**

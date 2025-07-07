@@ -15,7 +15,7 @@ export function errorHandler(
   res: Response,
   _next: NextFunction
 ) {
-  console.error(err)
+  // console.error(err)
 
   let statusCode = 500
   let message = 'Unknown error occurred'

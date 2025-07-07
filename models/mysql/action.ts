@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise'
-import { Action as ActionType } from '../../types/common.ts'
+import { SqlAction as ActionType } from '../../types/sql.ts'
 
-const config = {
+export const mySqlConfig = {
   host: 'localhost',
   user: 'root',
   port: 3306,
@@ -9,7 +9,7 @@ const config = {
   database: 'greenSteps'
 }
 
-const connection = await mysql.createConnection(config)
+const connection = await mysql.createConnection(mySqlConfig)
 
 class ActionModel {
   static async getAll(category?: string) {   
@@ -67,6 +67,11 @@ class ActionModel {
 
   static async create(action: ActionType) {
     const { title, description, carbon, categoryId } = action
+
+    // Validate required fields (TODO: consider using a validation library)
+    if (!title || !carbon || !categoryId) {
+      throw new Error('Title, carbon, and categoryId are required')
+    }
 
     const [uuidResult]: any = await connection.query('SELECT UUID() uuid;')
     const [{ uuid }] = uuidResult
