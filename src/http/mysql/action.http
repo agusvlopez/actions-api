@@ -2,10 +2,10 @@
 GET http://localhost:3000/actions
 
 ### GET actions BY category
-GET http://localhost:3000/actions?category=AGUA
+GET http://localhost:3000/actions?category=reciclaje
 
 ### GET action by ID
-GET http://localhost:3000/actions/6866c825b79a309211f87951
+GET http://localhost:3000/actions/0bf83419-57b1-11f0-bb44-00155d842e62
 
 ### POST action
 POST http://localhost:3000/actions
@@ -15,11 +15,11 @@ Content-Type: application/json
   "title": "Juntar agua de lluvia para regar",
   "description": "",
   "carbon": 2,
-  "category": "agua"
+  "categoryId": "8b6b9a1c-555e-11f0-b7f9-7085c2cd2972"
 }
 
 ### UPDATE action
-PUT http://localhost:3000/actions/68696f013643082b9a51c05f
+PUT http://localhost:3000/actions/c71a7439-5839-11f0-820f-00155d076f63
 Content-Type: application/json
 
 {
@@ -27,4 +27,4 @@ Content-Type: application/json
 }
 
 ### DELETE action
-DELETE http://localhost:3000/actions/68696f013643082b9a51c05f
+DELETE http://localhost:3000/actions/c71a7439-5839-11f0-820f-00155d076f63

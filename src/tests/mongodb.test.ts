@@ -42,7 +42,7 @@ describe('Actions API with MongoDB', () => {
       )
 
       if(actionOne) {
-        const actionTwo = await ActionModel.create(
+        await ActionModel.create(
           { title: 'Action 2', carbon: 2, category: 'transporte' }
         )
       }

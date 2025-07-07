@@ -1,4 +1,4 @@
-import { MONGO_URI, PORT } from "./config.ts"
+import { PORT } from "./config.js"
 import { createApp } from "./index.ts"
 import ActionModel from "./models/mysql/action.ts"
 import CategoryModel from "./models/mysql/category.ts"

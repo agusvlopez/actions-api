@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mysql from 'mysql2/promise'
 import { SqlAction as ActionType } from '../../types/sql.ts'
 
@@ -44,7 +45,6 @@ class ActionModel {
       FROM actions;`
     )
 
-    // Return all actions if no category filter is applied
     return actions
   }
 
@@ -73,19 +73,15 @@ class ActionModel {
       throw new Error('Title, carbon, and categoryId are required')
     }
 
-    const [uuidResult]: any = await connection.query('SELECT UUID() uuid;')
-    const [{ uuid }] = uuidResult
+    const [uuidResult] = await connection.query('SELECT UUID() uuid;')
+    const [{ uuid }] = uuidResult as { uuid: string }[]
 
-    try {
-      await connection.query(
-        `INSERT INTO actions (title, description, carbon, category_id, id)
-        VALUES (?, ?, ?, UUID_TO_BIN(?), UUID_TO_BIN(?));`,
-        [title, description, carbon, categoryId, uuid]
-      )
-      
-    } catch (error) {
-      throw new Error('Action creation failed')
-    }
+ 
+    await connection.query(
+      `INSERT INTO actions (title, description, carbon, category_id, id)
+      VALUES (?, ?, ?, UUID_TO_BIN(?), UUID_TO_BIN(?));`,
+      [title, description, carbon, categoryId, uuid]
+    )  
 
     const [actions] = await connection.query<any[]>(
       `SELECT 
@@ -99,92 +95,85 @@ class ActionModel {
       [uuid]
     )
     
-    if (actions.length === 0) return []
+    if (actions.length === 0) {
+      throw new Error('Could not retrieve the action after creation.')
+    }
 
     return actions[0]
   }
 
   static async update(id: string, input: ActionType) {
-    try {
-      const [existingAction] = await connection.query<any[]>(
-        `SELECT 
-          title, 
-          description, 
-          carbon,
-          BIN_TO_UUID(category_id) AS categoryId
-        FROM actions WHERE id = UUID_TO_BIN(?);`,
-        [id]
-      )
+    const [existingAction] = await connection.query<any[]>(
+      `SELECT 
+        title, 
+        description, 
+        carbon,
+        BIN_TO_UUID(category_id) AS categoryId
+      FROM actions WHERE id = UUID_TO_BIN(?);`,
+      [id]
+    )
       
-      if (existingAction.length === 0) {
-        throw new Error('Action not found')
-      }
-
-      const currentAction = existingAction[0]
-
-      const action = {
-        ...currentAction,
-        ...input
-      }
-
-      const { title, description, carbon, categoryId } = action
-
-      await connection.query(`
-        UPDATE actions
-        SET 
-          title = ?,
-          description = ?,
-          carbon = ?,
-          category_id = UUID_TO_BIN(?)
-        WHERE 
-          id = UUID_TO_BIN(?);`,
-        [title, description, carbon, categoryId, id]
-      )
-
-      return action
+    if (existingAction.length === 0) {
+      throw new Error('Action not found')
     }
-    catch (error) {
-      throw new Error('Action update failed')
+
+    const currentAction = existingAction[0]
+
+    const action = {
+      ...currentAction,
+      ...input
     }
+
+    const { title, description, carbon, categoryId } = action
+
+    await connection.query(`
+      UPDATE actions
+      SET 
+        title = ?,
+        description = ?,
+        carbon = ?,
+        category_id = UUID_TO_BIN(?)
+      WHERE 
+        id = UUID_TO_BIN(?);`,
+      [title, description, carbon, categoryId, id]
+    )
+
+    return action
   }
 
   static async delete(id: string) {
-    try {
-      //select the action to return it after deletion
-      const [existingAction] = await connection.query<any[]>(
-        `SELECT 
-          title, 
-          description, 
-          carbon, 
-          BIN_TO_UUID(category_id) AS categoryId, 
-          BIN_TO_UUID(id) AS id
-        FROM actions
-        WHERE id = UUID_TO_BIN(?);`,
-        [id]
-      )
 
-      if (existingAction.length === 0) {
-        throw new Error('Action not found')
-      }
-
-      const action = existingAction[0]
-
-      const [result] = await connection.query<mysql.ResultSetHeader>(
-        `DELETE FROM actions 
-        WHERE 
-          id = UUID_TO_BIN(?);`,
-        [id]
-      )
-
-      if (result.affectedRows === 0) {
-        throw new Error('Action not found')
-      }
-      // Return the deleted action
-      return action
-
-    } catch (error) {
-      throw new Error('Action delete failed')
+    //select the action to return it after deletion
+    const [existingAction] = await connection.query<any[]>(
+      `SELECT 
+        title, 
+        description, 
+        carbon, 
+        BIN_TO_UUID(category_id) AS categoryId, 
+        BIN_TO_UUID(id) AS id
+      FROM actions
+      WHERE id = UUID_TO_BIN(?);`,
+      [id]
+    )
+     if (existingAction.length === 0) {
+      throw new Error('Action not found')
     }
+    
+    const action = existingAction[0]
+
+    const [result] = await connection.query<mysql.ResultSetHeader>(
+      `DELETE FROM actions 
+      WHERE 
+        id = UUID_TO_BIN(?);`,
+      [id]
+    )
+
+    if (result.affectedRows === 0) {
+      throw new Error('Action not found')
+    }
+
+    // Return the deleted action
+    return action
   }
 }
 

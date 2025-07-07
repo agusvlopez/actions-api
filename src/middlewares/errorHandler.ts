@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response, NextFunction } from 'express'
 
 const mongooseErrorMap: Record<string, { status: number, message: string }> = {
@@ -24,12 +26,12 @@ export function errorHandler(
   if (err.name && mongooseErrorMap[err.name]) {
     const mapped = mongooseErrorMap[err.name]
     statusCode = mapped.status
-    message = mapped.message
+    message = err.message ?? mapped.message
 
   } else if (err.code && mysqlErrorMap[err.code]) {
     const mapped = mysqlErrorMap[err.code]
     statusCode = mapped.status
-    message = mapped.message
+    message = err.message ?? mapped.message
   } else if (err.message) {
     statusCode = err.status || err.statusCode || 500
     message = err.message

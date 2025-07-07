@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import mysql from 'mysql2/promise'
 import { Category as CategoryType } from '../../types/common.ts'
 
@@ -41,41 +42,57 @@ class CategoryModel {
     const [{ uuid }] = uuidResult
 
     try {
-      const [result] = await connection.query(
+      await connection.query(
         `INSERT INTO categories (id, name) 
           VALUES (UUID_TO_BIN(?), ?);`,
           [uuid, name]
       )
-    } catch (error) {
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new Error(err.message)
+      }
       throw new Error('Category creation failed')
     }
 
-    const [categories] = await connection.query<any[]>(
-      `SELECT 
-        BIN_TO_UUID(id) as id, 
-        name 
-      FROM categories 
-      WHERE id = UUID_TO_BIN(?);`,
-      [uuid]
-    )
-    
-    if (categories.length === 0) return []
+    try {
+      const [categories] = await connection.query<any[]>(
+        `SELECT 
+          BIN_TO_UUID(id) as id, 
+          name 
+        FROM categories 
+        WHERE id = UUID_TO_BIN(?);`,
+        [uuid]
+      )
+      
+      if (categories.length === 0) return []
 
-    return categories[0]
-
+      return categories[0]
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new Error(err.message)
+      }
+      throw new Error('Error fetching created category')
+    }
   }
 
   static async update(id: string, input: CategoryType) {
-    const [result] = await connection.query<mysql.ResultSetHeader>(
-      `UPDATE categories 
-       SET name = ? 
-       WHERE id = UUID_TO_BIN(?);`,
-      [input.name, id]
-    )
+    try {
+      const [result] = await connection.query<mysql.ResultSetHeader>(
+        `UPDATE categories 
+        SET name = ? 
+        WHERE id = UUID_TO_BIN(?);`,
+        [input.name, id]
+      )
 
-    if (result.affectedRows === 0) return null
+      if (result.affectedRows === 0) return null
 
-    return { id, ...input }
+      return { id, ...input }
+    } catch (err) {
+      if (err instanceof Error) {
+        throw new Error(err.message)
+      }
+      throw new Error('Category update failed')
+    }
   }
 
   static async delete(id: string) {
@@ -109,7 +126,10 @@ class CategoryModel {
       // Return the deleted category
       return category
 
-    } catch (error) {
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new Error(err.message)
+      }
       throw new Error('Category delete failed')
     }
   }

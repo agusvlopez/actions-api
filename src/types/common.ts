@@ -1,4 +1,5 @@
 import { QueryResult } from "mysql2"
+import { SqlActionRow } from "./sql.ts"
 
 /**
  * Represents an action a user can take to reduce their carbon footprint.
@@ -24,8 +25,8 @@ export interface Category {
 export interface ActionModelProps {
   actionModel: {
     getAll(category?: string): Promise<QueryResult | Action[]>
-    getById(id: string): Promise<Action | null>
-    create(action: Action): Promise<Action | any[]>
+    getById(id: string): Promise<Action | SqlActionRow | unknown>
+    create(action: Action): Promise<Action | SqlActionRow[]>
     update(id: string, input: Action): Promise<Action | null>
     delete(id: string): Promise<Action | null>
   }

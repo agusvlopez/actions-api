@@ -2,18 +2,18 @@
 GET http://localhost:3000/categories
 
 ### GET category by ID
-GET http://localhost:3000/categories/6866bd0c9af8b836391fcd0e
+GET http://localhost:3000/categories/dd3bf433-5b78-11f0-a4d8-7085c2cd2972
 
 ### POST create category
 POST http://localhost:3000/categories
 Content-Type: application/json
 
 {
-  "name": "Energía"
+  "name": "Nueva categoría"
 }
 
 ### PUT update category
-PUT http://localhost:3000/categories/6866bcd79af8b836391fcd06
+PUT http://localhost:3000/categories/dd3bf433-5b78-11f0-a4d8-7085c2cd2972
 Content-Type: application/json
 
 {
@@ -21,4 +21,4 @@ Content-Type: application/json
 }
 
 ### DELETE delete category
-DELETE http://localhost:3000/categories/6866bcd79af8b836391fcd06
+DELETE http://localhost:3000/categories/dd3bf433-5b78-11f0-a4d8-7085c2cd2972
