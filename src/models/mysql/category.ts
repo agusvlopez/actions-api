@@ -1,16 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mysql from 'mysql2/promise'
 import { Category as CategoryType } from '@/types/common.ts'
+import { mySqlConfig } from '@/config/MySql.ts'
 
-const config = {
-  host: 'localhost',
-  user: 'root',
-  port: 3306,
-  password: process.env.DATABASE_PASSWORD,
-  database: 'greenSteps'
-}
-
-const connection = await mysql.createConnection(config)
+const connection = await mysql.createConnection(mySqlConfig)
 
 class CategoryModel {
   static async getAll() {

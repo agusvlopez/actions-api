@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import mysql from 'mysql2/promise'
 import { SqlAction as ActionType } from '@/types/sql.ts'
-
-export const mySqlConfig = {
-  host: 'localhost',
-  user: 'root',
-  port: 3306,
-  password: process.env.DATABASE_PASSWORD,
-  database: 'greenSteps'
-}
+import { mySqlConfig } from '@/config/MySql.ts'
 
 const connection = await mysql.createConnection(mySqlConfig)
 
