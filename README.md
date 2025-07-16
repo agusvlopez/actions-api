@@ -42,7 +42,9 @@ Una API REST simple para gestionar acciones de sostenibilidad y su impacto de ca
 3.  **Configura las variables de entorno:**
     Crea un archivo `.env` en la raíz del proyecto. Puedes usar el archivo `.env.example` como plantilla.
 
+    ```
     PORT=puerto_a_utilizar
+    ```
     Opcional: Indicar el puerto
     
     **Para MongoDB**
@@ -64,12 +66,11 @@ Una API REST simple para gestionar acciones de sostenibilidad y su impacto de ca
 5.  **Inicia el servidor:**
 
    **Correr en MongoDB**
-    ```bash
+    ```
     npm run dev:mongodb
     ```
-
     **Correr en MySQL**
-    ```bash
+    ```
     npm run dev:mysql
     ```
     
