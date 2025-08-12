@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "tsx watch src/server-mongodb.ts",
     "dev:mongodb": "tsx watch src/server-mongodb.ts",
     "dev:mysql": "tsx watch src/server-mysql.ts",
     "test": "jest",
