@@ -38,12 +38,12 @@ describe('Actions API with MongoDB', () => {
 
     it('should return a list of actions', async () => {
       const actionOne = await ActionModel.create(
-        { title: 'Action 1', carbon: 1, category: 'energía' }
+        { title: 'Action 1', carbon: 1, category: 'energía', image: { public_id: 'public_id', url: 'url' } }
       )
 
       if(actionOne) {
         await ActionModel.create(
-          { title: 'Action 2', carbon: 2, category: 'transporte' }
+          { title: 'Action 2', carbon: 2, category: 'transporte', image: { public_id: 'public_id', url: 'url' } }
         )
       }
 
@@ -92,7 +92,7 @@ describe('Actions API with MongoDB', () => {
 
   describe('GET /actions/:id', () => {
     it('should return a single action by id', async () => {
-      const action = await ActionModel.create({ title: 'Test Action', carbon: 1, category: 'otros' })
+      const action = await ActionModel.create({ title: 'Test Action', carbon: 1, category: 'otros', image: { public_id: 'public_id', url: 'url' } })
       const actionId = (action as { _id: mongoose.Types.ObjectId })._id.toString()
 
       const res = await request(app).get(`/actions/${actionId}`)
@@ -119,7 +119,7 @@ describe('Actions API with MongoDB', () => {
 
   describe('PUT /actions/:id', () => {
     it('should update an action successfully', async () => {
-      const action = await ActionModel.create({ title: 'Old Title', carbon: 1, category: 'otros' })
+      const action = await ActionModel.create({ title: 'Old Title', carbon: 1, category: 'otros', image: { public_id: 'public_id', url: 'url' } })
       const actionId = (action as { _id: mongoose.Types.ObjectId })._id.toString()
       const updateData = { description: 'A new description' }
 
@@ -134,7 +134,7 @@ describe('Actions API with MongoDB', () => {
 
   describe('DELETE /actions/:id', () => {
     it('should delete an action successfully', async () => {
-        const action = await ActionModel.create({ title: 'To Be Deleted', carbon: 1, category: 'otros' })
+        const action = await ActionModel.create({ title: 'To Be Deleted', carbon: 1, category: 'otros', image: { public_id: 'public_id', url: 'url' } })
         const actionId = (action as { _id: mongoose.Types.ObjectId })._id.toString()
 
         const res = await request(app).delete(`/actions/${actionId}`)
