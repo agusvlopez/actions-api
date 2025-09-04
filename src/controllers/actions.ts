@@ -34,7 +34,7 @@ class ActionController {
     }
   }
 
-  create: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  create: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (!req.file) {
         res.status(400).json({ error: "No file uploaded" });
