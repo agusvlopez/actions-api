@@ -1,6 +1,7 @@
 import { Router } from "express"
 import ActionController from "@/controllers/actions.ts"
 import { ActionModelProps } from "@/types/common.ts"
+import upload from "@/middlewares/multer.ts"
 
 export const createActionsRouter = (actionModel : ActionModelProps) => {
   const actionsRouter = Router()
@@ -9,7 +10,7 @@ export const createActionsRouter = (actionModel : ActionModelProps) => {
 
   actionsRouter.get('/', actionController.getAll)
   actionsRouter.get('/:id', actionController.getById)
-  actionsRouter.post('/', actionController.create)
+  actionsRouter.post('/', upload.single("image"), actionController.create)
   actionsRouter.put('/:id', actionController.update)
   actionsRouter.delete('/:id', actionController.delete)
 

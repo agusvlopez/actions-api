@@ -1,5 +1,7 @@
 import { ActionModelProps} from "@/types/common.ts"
+import { uploadImageToCloudinary } from "@/utils/cloudinary.ts";
 import { NextFunction, Request, RequestHandler, Response } from "express"
+
 
 class ActionController {
   actionModel: ActionModelProps["actionModel"]
@@ -32,12 +34,23 @@ class ActionController {
     }
   }
 
-  create: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
+  create: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const newAction = await this.actionModel.create(req.body)
-      res.status(201).json(newAction)
+      if (!req.file) {
+        res.status(400).json({ error: "No file uploaded" });
+        return;
+      }
+
+      //subir a cloudinary
+      const image = await uploadImageToCloudinary(req.file.buffer);
+      const actionData = {
+        ...req.body,
+        image
+      }
+      const newAction = await this.actionModel.create(actionData)
+      res.status(201).json(newAction);
     } catch (err) {     
-      next(err)
+      next(err);
     }
   }
 

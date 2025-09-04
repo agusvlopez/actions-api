@@ -59,21 +59,27 @@ class ActionModel {
   }
 
   static async create(action: ActionType) {
-    const { title, description, carbon, categoryId } = action
+    const { title, description, carbon, categoryId, image } = action
 
     // Validate required fields (TODO: consider using a validation library)
     if (!title || !carbon || !categoryId) {
       throw new Error('Title, carbon, and categoryId are required')
     }
+    console.log("image: ", image);
+
+    if (image && typeof image !== 'object') {
+      throw new Error('Image must be an object with public_id and url')
+    }
 
     const [uuidResult] = await connection.query('SELECT UUID() uuid;')
     const [{ uuid }] = uuidResult as { uuid: string }[]
 
+    const imageData = image && Object.keys(image).length ? JSON.stringify(image) : null
  
     await connection.query(
-      `INSERT INTO actions (title, description, carbon, category_id, id)
-      VALUES (?, ?, ?, UUID_TO_BIN(?), UUID_TO_BIN(?));`,
-      [title, description, carbon, categoryId, uuid]
+      `INSERT INTO actions (title, description, carbon, category_id, id, image)
+      VALUES (?, ?, ?, UUID_TO_BIN(?), UUID_TO_BIN(?), ?);`,
+      [title, description, carbon, categoryId, uuid, imageData]
     )  
 
     const [actions] = await connection.query<any[]>(
@@ -82,7 +88,8 @@ class ActionModel {
         description, 
         carbon, 
         BIN_TO_UUID(category_id) AS category_id, 
-        BIN_TO_UUID(id) AS id 
+        BIN_TO_UUID(id) AS id,
+        image 
       FROM actions 
       WHERE id = UUID_TO_BIN(?);`,
       [uuid]
@@ -92,7 +99,19 @@ class ActionModel {
       throw new Error('Could not retrieve the action after creation.')
     }
 
-    return actions[0]
+    const actionRow = actions[0]
+    //TODO: CHECK THIS
+    // console.log("actionRow",actionRow);
+    
+    // if (actionRow.image) {
+    //   try {
+    //     actionRow.image = JSON.parse(actionRow.image)
+    //   } catch (err) {
+    //     actionRow.image = null
+    //   }
+    // }
+
+    return actionRow
   }
 
   static async update(id: string, input: ActionType) {

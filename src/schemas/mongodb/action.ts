@@ -15,6 +15,16 @@ const ActionSchema = new mongoose.Schema<ActionType>({
     type: String,
     enum: ['energía', 'transporte', 'reciclaje', 'alimentación', 'agua', 'otros'],
     required: true
+  },
+  image: {
+    public_id: {
+      type: String,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
+    }
   }
 }, { timestamps: true })
 
