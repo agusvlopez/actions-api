@@ -1,5 +1,6 @@
-import { ActionModelProps} from "@/types/common.ts"
-import { uploadImageToCloudinary } from "@/utils/cloudinary.ts";
+import { ActionModelProps } from "@/types/common.ts"
+import { MongoAction } from "@/types/mongo.ts";
+import { uploadImageToCloudinary, deleteImageFromCloudinary } from "@/utils/cloudinary.ts";
 import { NextFunction, Request, RequestHandler, Response } from "express"
 
 
@@ -56,12 +57,30 @@ class ActionController {
 
   update: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params
+    const actionData = { ...req.body };
+
     try {
-      const action = await this.actionModel.update(id, req.body)
-      if(!action) {
+      //TODO: pasarlo a un servicio/archivo aparte
+      // Si se sube una nueva imagen
+      if (req.file) {
+        // 1. Obtener la acción existente para conseguir el public_id de la imagen vieja
+        const existingAction = await this.actionModel.getById(id) as MongoAction 
+        if (existingAction && existingAction.image && existingAction.image.public_id) {
+          // 2. Eliminar la imagen antigua de Cloudinary
+          await deleteImageFromCloudinary(existingAction.image.public_id);
+        }
+
+        // 3. Subir la nueva imagen
+        const newImage = await uploadImageToCloudinary(req.file.buffer);
+        actionData.image = newImage;
+      }
+
+      // 4. Actualizar la acción en la base de datos
+      const updatedAction = await this.actionModel.update(id, actionData);
+      if(!updatedAction) {
         res.status(404).json({ error: 'Action not found' }) 
       } else {
-        res.status(200).json(action)
+        res.status(200).json(updatedAction)
       }
     } catch (err) {
       next(err)
@@ -72,6 +91,11 @@ class ActionController {
     const { id } = req.params
     try {
       const deletedAction = await this.actionModel.delete(id)
+      //eliminar la imagen de cloudinary
+      if (deletedAction && deletedAction.image && deletedAction.image.public_id) {
+        await deleteImageFromCloudinary(deletedAction.image.public_id);
+      }
+      
       if(!deletedAction) {
         res.status(404).json({ error: 'Action not found' })
       } else {

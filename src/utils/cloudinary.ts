@@ -38,3 +38,13 @@ export async function uploadImageToCloudinary(fileBuffer: Buffer) {
     stream.end(fileBuffer);
   });
 }
+
+//delete an image
+export async function deleteImageFromCloudinary(publicId: string) {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) return reject(error);
+      resolve(result);
+    });
+  });
+}

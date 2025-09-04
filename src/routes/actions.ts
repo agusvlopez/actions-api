@@ -11,7 +11,7 @@ export const createActionsRouter = (actionModel : ActionModelProps) => {
   actionsRouter.get('/', actionController.getAll)
   actionsRouter.get('/:id', actionController.getById)
   actionsRouter.post('/', upload.single("image"), actionController.create)
-  actionsRouter.put('/:id', actionController.update)
+  actionsRouter.put('/:id', upload.single("image"), actionController.update)
   actionsRouter.delete('/:id', actionController.delete)
 
   return actionsRouter

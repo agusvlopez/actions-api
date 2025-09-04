@@ -8,6 +8,11 @@ export interface Action {
   title: string
   description?: string
   carbon: number
+  category?: string
+  image?: {
+    public_id: string
+    url: string
+  }
 }
 
 /**
